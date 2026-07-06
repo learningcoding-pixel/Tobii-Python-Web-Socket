@@ -61,11 +61,11 @@ async def main():
             while True:
                 
 
-                if math.isnan(x) or math.isnan(y):
-                    x = -1
-                    y = -1
+                #if math.isnan(x) or math.isnan(y):
+                #    x = -1
+                #    y = -1
                 
-                print(f"Alive... x={repr(x)}, y={repr(y)}")
+                #print(f"Alive... x={repr(x)}, y={repr(y)}")
 
 
                 # Send latest gaze coordinates
@@ -79,6 +79,18 @@ async def main():
                                 }
                                 )
                                 )
+                    print(f"Sent gaze coordinates: x={x}, y={y}")
+                else:
+                    await ws.send(
+                        json.dumps(
+                            {
+                                "type": "producer",
+                                "x": -1,
+                                "y": -1,
+                            }
+                        )
+                    )
+                    print("Sent invalid gaze coordinates.")
 
                 # 50 Hz update rate
                 await asyncio.sleep(0.02)
