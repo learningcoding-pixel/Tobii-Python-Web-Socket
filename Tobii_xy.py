@@ -4,6 +4,7 @@ import time
 import websockets
 import tobii_research as tr
 import sys
+import math
 
 # Latest gaze position
 x = 0.5
@@ -58,25 +59,26 @@ async def main():
             print("Connected to WebSocket server.")
 
             while True:
-                # Print every 2 seconds
-                """
-                now = time.time()
-                if now - last_print >= 2:
-                    print(f"Alive... x={x:.3f}, y={y:.3f}")
-                    last_print = now
-                """
+                
+
+                if math.isnan(x) or math.isnan(y):
+                    x = -1
+                    y = -1
+                
                 print(f"Alive... x={repr(x)}, y={repr(y)}")
 
+
                 # Send latest gaze coordinates
-                await ws.send(
-                    json.dumps(
-                        {
-                            "type": "producer",
-                            "x": x,
-                            "y": y,
-                        }
-                    )
-                )
+                if not (math.isnan(x) or math.isnan(y)):
+                    await ws.send(
+                        json.dumps(
+                            {
+                                "type": "producer",
+                                "x": x,
+                                "y": y,
+                                }
+                                )
+                                )
 
                 # 50 Hz update rate
                 await asyncio.sleep(0.02)
