@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Viewer</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    text-align:center;
+    margin-top:80px;
+}
+
+#values{
+    font-size:40px;
+    margin:30px;
+}
+
+button{
+    font-size:22px;
+    padding:12px 30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Live XY</h1>
+
+<div id="values">OFF</div>
+
+<button id="toggle">Start</button>
+
+<script>
+
+let enabled=false;
+
+let latest={x:0,y:0};
+
+const ws=new WebSocket("ws://localhost:8765");
+
+ws.onmessage=(event)=>{
+
+    latest=JSON.parse(event.data);
+
+    if(enabled){
+
+        values.innerHTML=
+        latest.x.toFixed(4)+
+        "<br>"+
+        latest.y.toFixed(4);
+
+    }
+
+}
+
+toggle.onclick=()=>{
+
+    enabled=!enabled;
+
+    if(enabled){
+
+        toggle.innerHTML="Stop";
+
+    }
+
+    else{
+
+        toggle.innerHTML="Start";
+        values.innerHTML="OFF";
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
