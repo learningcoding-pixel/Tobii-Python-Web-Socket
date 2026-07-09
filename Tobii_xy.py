@@ -93,7 +93,7 @@ async def main():
                     print("Sent invalid gaze coordinates.")
 
                 # 50 Hz update rate
-                await asyncio.sleep(0.02)
+                await asyncio.sleep(0.0083) #0.02
 
     except Exception as e:
         print("WebSocket error:", e)
