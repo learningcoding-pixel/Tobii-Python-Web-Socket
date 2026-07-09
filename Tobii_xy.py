@@ -28,6 +28,10 @@ print("Model:", my_eyetracker.model)
 print("Name:", my_eyetracker.device_name)
 print("Serial number:", my_eyetracker.serial_number)
 
+# Sampling frequency
+print("Current frequency:", my_eyetracker.get_gaze_output_frequency())
+print("Available frequencies:", my_eyetracker.get_all_gaze_output_frequencies())
+
 
 def gaze_data_callback(gaze_data):
     global x, y
@@ -93,7 +97,7 @@ async def main():
                     print("Sent invalid gaze coordinates.")
 
                 # 50 Hz update rate
-                await asyncio.sleep(0.0083) #0.02
+                #await asyncio.sleep(0.0083) #0.02
 
     except Exception as e:
         print("WebSocket error:", e)
